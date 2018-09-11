@@ -1,0 +1,158 @@
+---
+openapi: "3.0.0"
+info:
+  description: "Directory service to manage contacts information."
+  version: "1.0"
+  title: "Directory Service"
+  contact:
+    email: "jui.136@gmail.com"
+servers:
+  - url: http://localhost:8080/v1
+    description: "Directory Service runs on localhost"
+security:
+  - basicAuth: []
+paths:
+  /contacts:
+    post:
+      tags:
+        - Contacts
+      summary: Add new contact details.
+      description: >
+        Add new contact to record.
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          description: Successful Created
+        '401':
+          description: Authorization information is missing or invalid.
+        '400':
+          description: Bad Request. Contact name must be defined.
+        '409':
+          description: Conflict. Contact name already exists in records.
+        '415':
+          description: Unsupported Media Type.
+    get:
+      tags:
+        - Contacts
+      summary: List all contact names.
+      description: >
+        List all contact names present in record.
+      operationId: getContacts
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Authorization information is missing or invalid.
+  /contacts/{name}:
+    get:
+      tags:
+        - Contacts
+      summary: Show contact details.
+      description: >
+        Show contact details from record.
+      parameters:
+        - name: name
+          in: path
+          description: Contact Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: Contact name not found in records.
+    put:
+      tags:
+        - Contacts
+      summary: Update contact details.
+      description: >
+        Update contact details in record.
+      parameters:
+        - name: name
+          in: path
+          description: Name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContact'
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: Contact name not found in records.
+        '415':
+          description: Unsupported Media Type.
+    delete:
+      tags:
+        - Contacts
+      summary: Delete contact.
+      description: >
+        Delete contact from records.
+      parameters:
+        - name: name
+          in: path
+          description: Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: Contact name not found in records.
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Contact:
+      properties:
+        name:
+          type: string
+          example: "Joe"
+        phoneNumber:
+          type: string
+          example: "7892341670"
+        email:
+          type: string
+          example: "joe@example.com"
+      required: 
+        - name
+    UpdateContact:
+      properties:
+        phoneNumber:
+          type: string
+          example: "726392341670"
+        email:
+          type: string
+          example: "joe@sample.com"
