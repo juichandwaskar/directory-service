@@ -1,24 +1,27 @@
-# Directory Service 📘
+# Contact Directory Service 📘
 
 ### Overview
-Directory Service is a simple contact record management REST API service, with feature to add, view, list, update and delete contacts from its records which are stored in memory cache.
+Contact Directory Service is a simple contact record management REST API service, with feature to add, view, list, update and delete contacts from its records which are stored in memory cache.
 For each contact one can store following fields:
- - Name*
-  - Phone Number
-  - Email
+ - Name (Must be unique)
+ - Phone Number
+ - Email
 
 ### Documentation
 
 The full API specification can be found in `swagger.yaml`
 
 ### Prerequisites
-* IDE ( preffered Eclipse 4.3+)
+* IDE ( preferred Eclipse 4.3+)
 * JDK 1.8
 * Maven 3.*
 
 ### Installation
 
 1. Download/clone the project and change to the root folder of the project.
+```sh
+$ cd directory-service
+``
 2. Build the project using following maven command.
 ```sh
 $ mvn clean package -DskipTests

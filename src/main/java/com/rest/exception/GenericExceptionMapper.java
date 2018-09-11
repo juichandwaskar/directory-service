@@ -9,25 +9,34 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-
+/**
+ * Class to send response for generic exceptions
+ */
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
- 
+	/**
+	 * @param exception
+	 * 
+	 */
 	public Response toResponse(Throwable ex) {
-		
+
 		ErrorMessage errorMessage = new ErrorMessage();		
 		setHttpStatus(ex, errorMessage);
 		errorMessage.setMessage(ex.getMessage());
 		StringWriter errorStackTrace = new StringWriter();
 		ex.printStackTrace(new PrintWriter(errorStackTrace));
-	
-				
+
+
 		return Response.status(errorMessage.getStatus())
 				.entity(errorMessage)
 				.type(MediaType.APPLICATION_JSON)
 				.build();	
 	}
-
+	/**
+	 * @param exception
+	 * @param message
+	 * 
+	 */
 	private void setHttpStatus(Throwable ex, ErrorMessage errorMessage) {
 		if(ex instanceof WebApplicationException ) {
 			int code = ((WebApplicationException)ex).getResponse().getStatus();
