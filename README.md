@@ -21,7 +21,7 @@ The full API specification can be found in `swagger.yaml`
 1. Download/clone the project and change to the root folder of the project.
 ```sh
 $ cd directory-service
-``
+```
 2. Build the project using following maven command.
 ```sh
 $ mvn clean package -DskipTests
